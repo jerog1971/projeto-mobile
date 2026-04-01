@@ -1,0 +1,26 @@
+[
+  {
+    "id": "100",
+    "nome": "Pão de Queijo Mineiro",
+    "img": "https://img.itdg.com.br/tdg/images/recipes/000/002/231/358045/358045_original.jpg",
+    "ingredientes": ["500g de polvilho doce", "3 ovos", "250g de queijo ralado", "200ml de leite"],
+    "utensilios": ["Tigela grande", "Assadeira", "Forno"],
+    "passos": [
+      "Escalde o polvilho com o leite quente.",
+      "Misture os ovos e o queijo até formar uma massa.",
+      "Faça bolinhas e asse em forno médio por 25 minutos."
+    ]
+  },
+  {
+    "id": "101",
+    "nome": "Mousse de Limão",
+    "img": "https://p2.trrsf.com/image/fget/cf/1200/900/middle/images.terra.com/2022/07/04/783935275-mousse-de-limao-facil.jpg",
+    "ingredientes": ["1 lata de leite condensado", "1 lata de creme de leite", "Meia xícara de suco de limão"],
+    "utensilios": ["Liquidificador", "Taças de sobremesa", "Geladeira"],
+    "passos": [
+      "Bata tudo no liquidificador por 3 minutos.",
+      "Coloque nas taças e leve à geladeira por 2 horas.",
+      "Decore com raspas de limão antes de servir."
+    ]
+  }
+]
