@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Alert, Act
 // 1. DICIONÁRIO DE IMAGENS (Para as receitas que virão do JSON)
 const IMAGENS_EXTERNAS = {
   'pao_de_queijo.jpg': require('./img/pao_de_queijo.jpg'), // ajuste o nome do arquivo se necessário
-  'mousse_limao.jpg': require('./img/bolo_chocolate.jpg'), // usando chocolate como exemplo se não tiver a do limão
+  'mousse_limao.jpg': require('./img/mousse_limao.jpg'), // usando chocolate como exemplo se não tiver a do limão
 };
 
 const RECEITAS_PADRAO = [
