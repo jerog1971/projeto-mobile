@@ -2,33 +2,37 @@ import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 
 export default function ToolsScreen({ route, navigation }) {
-  const { nomeReceita } = route.params || {};
+  // 1. Recebemos o objeto completo vindo da IngredientsScreen
+  const { receitaCompleta } = route.params || {};
 
-  const tools = [
-    { id: '1', name: 'Liquidificador', icon: '🌪️' },
-    { id: '2', name: 'Forma Redonda', icon: '🎂' },
-    { id: '3', name: 'Fritola/Espátula', icon: '🥄' },
-  ];
+  // 2. Extraímos a lista de utensílios. 
+  // Caso a receita não tenha (segurança), exibimos uma lista vazia.
+  const listaUtensilios = receitaCompleta?.utensilios || [];
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Utensílios necessários</Text>
-      <Text style={styles.subtitle}>Para o seu {nomeReceita}:</Text>
+      <Text style={styles.subtitle}>Para o seu {receitaCompleta?.nome || "prato"}:</Text>
 
+      {/* 3. Renderizamos a lista dinamicamente */}
       <FlatList
-        data={tools}
-        keyExtractor={item => item.id}
+        data={listaUtensilios}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.toolCard}>
-            <Text style={styles.toolIcon}>{item.icon}</Text>
-            <Text style={styles.toolName}>{item.name}</Text>
+            {/* Usamos um ícone padrão, mas os alunos podem personalizar no JSON depois */}
+            <Text style={styles.toolIcon}>🛠️</Text>
+            <Text style={styles.toolName}>{item}</Text>
           </View>
         )}
+        ListEmptyComponent={
+          <Text style={styles.emptyText}>Nenhum utensílio específico listado.</Text>
+        }
       />
 
       <TouchableOpacity 
         style={styles.button} 
-        onPress={() => navigation.navigate('Passo a Passo', { nomeReceita })}>
+        onPress={() => navigation.navigate('Passo a Passo', { receitaCompleta })}>
         <Text style={styles.buttonText}>Ir para o Passo a Passo 👨‍🍳</Text>
       </TouchableOpacity>
     </View>
@@ -37,11 +41,27 @@ export default function ToolsScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, backgroundColor: '#fff' },
-  title: { fontSize: 24, fontWeight: 'bold' },
+  title: { fontSize: 24, fontWeight: 'bold', color: '#333' },
   subtitle: { fontSize: 16, color: '#666', marginBottom: 20 },
-  toolCard: { flexDirection: 'row', alignItems: 'center', padding: 15, backgroundColor: '#eee', borderRadius: 10, marginBottom: 10 },
+  toolCard: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    padding: 15, 
+    backgroundColor: '#f5f5f5', 
+    borderRadius: 12, 
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#eee'
+  },
   toolIcon: { fontSize: 24, marginRight: 15 },
-  toolName: { fontSize: 18 },
-  button: { backgroundColor: '#f4511e', padding: 15, borderRadius: 10, marginTop: 20 },
-  buttonText: { color: '#fff', textAlign: 'center', fontWeight: 'bold' }
+  toolName: { fontSize: 18, color: '#444' },
+  emptyText: { textAlign: 'center', color: '#999', marginTop: 20 },
+  button: { 
+    backgroundColor: '#f4511e', 
+    padding: 18, 
+    borderRadius: 12, 
+    marginTop: 20,
+    elevation: 3
+  },
+  buttonText: { color: '#fff', textAlign: 'center', fontWeight: 'bold', fontSize: 16 }
 });
