@@ -14,7 +14,7 @@ export default function StepsScreen({ route, navigation }) {
       
       {/* GIF animado para dar um clima de "mão na massa" */}
       <Image 
-        source={{ uri: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueW9ueW56bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9iZCZjdD1n/l41lTjJp0N8HnZz9S/giphy.gif' }} 
+        source={{ uri: 'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3enZwMXgwMDBvdHFpazVrbWZiNnQwYnpkenBtaXh5d2VnNmhxZHc5MSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/JWSgfzUOcsPux6VVHe/giphy.gif' }} 
         style={styles.gif} 
       />
 
