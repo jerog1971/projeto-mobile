@@ -2,7 +2,7 @@
   {
     "id": "100",
     "nome": "Pão de Queijo Mineiro",
-    "img": "pao_de_queijo",
+    "img": "pao_de_queijo.jpg",
     "ingredientes": ["500g de polvilho doce", "3 ovos", "250g de queijo ralado", "200ml de leite"],
     "utensilios": ["Tigela grande", "Assadeira", "Forno"],
     "passos": [
