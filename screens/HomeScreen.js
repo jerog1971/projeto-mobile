@@ -57,9 +57,27 @@ export default function HomeScreen({ navigation }) {
     }
   };
 
+ // FUNÇÃO 2: Deletar da Lista com Confirmação
   const deletarReceita = (id) => {
-    const novaLista = receitas.filter(r => r.id !== id);
-    setReceitas(novaLista);
+    Alert.alert(
+      "Confirmar Exclusão", // Título
+      "Tem certeza que deseja remover esta receita da sua lista?", // Mensagem
+      [
+        {
+          text: "Cancelar",
+          onPress: () => console.log("Cancelado"),
+          style: "cancel"
+        },
+        { 
+          text: "Sim, Remover", 
+          onPress: () => {
+            const novaLista = receitas.filter(r => r.id !== id);
+            setReceitas(novaLista);
+          },
+          style: "destructive" // No iOS, o texto fica vermelho
+        }
+      ]
+    );
   };
 
   return (
