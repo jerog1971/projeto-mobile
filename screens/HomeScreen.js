@@ -1,21 +1,43 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+// Adicionado SafeAreaView para proteção das bordas do sistema
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Alert, ActivityIndicator, SafeAreaView } from 'react-native';
 
-// Dicionário de Imagens (Certifique-se que os nomes batem com os arquivos na pasta /img)
+// Dicionário de Imagens
 const IMAGENS_LOCAIS = {
   'bolo_chocolate.jpg': require('./img/bolo_chocolate.jpg'),
   'bolo_fuba.jpg': require('./img/bolo_fuba.jpg'),
   'bolo_cenoura.jpg': require('./img/bolo_cenoura.jpg'),
   'bolo_laranja.jpg': require('./img/bolo_laranja.jpg'),
-  'pao_de_queijo.jpg': require('./img/pao_de_queijo.jpg'), // ajuste se houver erro de digitação no nome
+  'pao_de_queijo.jpg': require('./img/pao_de_queijo.jpg'),
   'mousse_limao.jpg': require('./img/mousse_limao.jpg'),
 };
 
+// 1. AJUSTE: Adicionado o campo videoUrl para as receitas padrão
 const RECEITAS_INICIAIS = [
-  { id: "1", nome: 'Bolo de Chocolate', img: 'bolo_chocolate.jpg', ingredientes: ["3 Ovos", "Farinha"], utensilios: ["Forno"], passos: ["Bata", "Asse"] },
-  { id: "2", nome: 'Bolo de Fubá', img: 'bolo_fuba.jpg', ingredientes: ["Fubá", "Leite"], utensilios: ["Forno"], passos: ["Misture", "Asse"] },
-  { id: "3", nome: 'Bolo de Cenoura', img: 'bolo_cenoura.jpg', ingredientes: ["Cenoura", "Óleo"], utensilios: ["Liquidificador"], passos: ["Bata", "Asse"] },
-  { id: "4", nome: 'Bolo de Laranja', img: 'bolo_laranja.jpg', ingredientes: ["Laranja", "Trigo"], utensilios: ["Forno"], passos: ["Bata", "Asse"] },
+  { 
+    id: "1", nome: 'Bolo de Chocolate', img: 'bolo_chocolate.jpg', 
+    ingredientes: ["3 Ovos", "Farinha"], utensilios: ["Forno"], 
+    passos: ["Bata os ingredientes", "Asse por 40 min"],
+    videoUrl: 'https://raw.githubusercontent.com/jerog1971/projeto-mobile/main/videos/chocolate.mp4' 
+  },
+  { 
+    id: "2", nome: 'Bolo de Fubá', img: 'bolo_fuba.jpg', 
+    ingredientes: ["Fubá", "Leite"], utensilios: ["Forno"], 
+    passos: ["Misture o fubá", "Leve ao forno quente"],
+    videoUrl: 'https://raw.githubusercontent.com/jerog1971/projeto-mobile/main/videos/fuba.mp4'
+  },
+  { 
+    id: "3", nome: 'Bolo de Cenoura', img: 'bolo_cenoura.jpg', 
+    ingredientes: ["Cenoura", "Óleo"], utensilios: ["Liquidificador"], 
+    passos: ["Bata no liquidificador", "Asse e faça a cobertura"],
+    videoUrl: 'https://raw.githubusercontent.com/jerog1971/projeto-mobile/main/videos/cenoura.mp4'
+  },
+  { 
+    id: "4", nome: 'Bolo de Laranja', img: 'bolo_laranja.jpg', 
+    ingredientes: ["Laranja", "Trigo"], utensilios: ["Forno"], 
+    passos: ["Extraia o suco", "Misture com carinho e asse"],
+    videoUrl: 'https://raw.githubusercontent.com/jerog1971/projeto-mobile/main/videos/laranja.mp4'
+  },
 ];
 
 export default function HomeScreen({ navigation }) {
@@ -53,43 +75,57 @@ export default function HomeScreen({ navigation }) {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.headerTitle}>Minhas Receitas 🍰</Text>
-      <Text style={styles.headerSubtitle}>Receitas fixas e novidades da nuvem</Text>
+    <SafeAreaView style={styles.safeArea}>
+      {/* 2. AJUSTE: contentContainerStyle garante o respiro no final da rolagem */}
+      <ScrollView 
+        style={styles.container} 
+        contentContainerStyle={styles.scrollPadding}
+      >
+        <Text style={styles.headerTitle}>Minhas Receitas 🍰</Text>
+        <Text style={styles.headerSubtitle}>Receitas fixas e novidades da nuvem</Text>
 
-      <TouchableOpacity style={styles.btnSync} onPress={sincronizarReceitas} disabled={carregando}>
-        {carregando ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Baixar Novidades ☁️</Text>}
-      </TouchableOpacity>
+        <TouchableOpacity 
+          style={[styles.btnSync, carregando && { opacity: 0.7 }]} 
+          onPress={sincronizarReceitas} 
+          disabled={carregando}
+        >
+          {carregando ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Baixar Novidades ☁️</Text>}
+        </TouchableOpacity>
 
-      <View style={styles.vitrine}>
-        {receitas.map((receita) => (
-          <View key={receita.id} style={styles.cardContainer}>
-            <TouchableOpacity 
-              style={styles.card}
-              onPress={() => navigation.navigate('Ingredientes', { receitaCompleta: receita })}
-            >
-              <Image source={IMAGENS_LOCAIS[receita.img]} style={styles.image} />
-              <View style={styles.cardOverlay}>
-                <Text style={styles.recipeTitle}>{receita.nome}</Text>
-              </View>
-            </TouchableOpacity>
-
-            {/* TRAVA DE SEGURANÇA: Só mostra o botão 'X' se o ID não for 1, 2, 3 ou 4 */}
-            { !["1", "2", "3", "4"].includes(receita.id) && (
-              <TouchableOpacity style={styles.deleteBtn} onPress={() => deletarReceita(receita.id)}>
-                <Text style={styles.deleteText}>✕</Text>
+        <View style={styles.vitrine}>
+          {receitas.map((receita) => (
+            <View key={receita.id} style={styles.cardContainer}>
+              <TouchableOpacity 
+                style={styles.card}
+                onPress={() => navigation.navigate('Ingredientes', { receitaCompleta: receita })}
+              >
+                <Image 
+                  source={IMAGENS_LOCAIS[receita.img] || { uri: receita.imgUrl }} 
+                  style={styles.image} 
+                />
+                <View style={styles.cardOverlay}>
+                  <Text style={styles.recipeTitle}>{receita.nome}</Text>
+                </View>
               </TouchableOpacity>
-            )}
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+
+              { !["1", "2", "3", "4"].includes(receita.id) && (
+                <TouchableOpacity style={styles.deleteBtn} onPress={() => deletarReceita(receita.id)}>
+                  <Text style={styles.deleteText}>✕</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
-// ... Estilos iguais aos anteriores
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  safeArea: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1 },
+  // 3. AJUSTE: Esse paddingBottom evita que o último card seja cortado pela barra de navegação
+  scrollPadding: { paddingBottom: 40 },
   headerTitle: { fontSize: 26, fontWeight: 'bold', padding: 20, paddingBottom: 5 },
   headerSubtitle: { fontSize: 14, color: '#666', paddingHorizontal: 20, marginBottom: 10 },
   btnSync: { backgroundColor: '#f4511e', margin: 20, padding: 15, borderRadius: 12, alignItems: 'center' },
