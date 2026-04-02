@@ -1,45 +1,104 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+// Importamos o SafeAreaView
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, SafeAreaView } from 'react-native';
+import { Video, ResizeMode } from 'expo-av';
 
 export default function StepsScreen({ route, navigation }) {
-  // 1. Recebemos o objeto completo da receita vindo da ToolsScreen
   const { receitaCompleta } = route.params || {};
+  const [mostrarVideo, setMostrarVideo] = useState(false);
 
-  // 2. Pegamos a lista de passos. Se não existir, criamos uma lista padrão.
   const listaPassos = receitaCompleta?.passos || ["Prepare os ingredientes com carinho.", "Siga as instruções de preparo."];
+  const videoUri = receitaCompleta?.videoUrl; 
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}>Preparando {receitaCompleta?.nome || "sua receita"}</Text>
-      
-      {/* GIF animado para dar um clima de "mão na massa" */}
-      <Image 
-        source={{ uri: 'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3enZwMXgwMDBvdHFpazVrbWZiNnQwYnpkenBtaXh5d2VnNmhxZHc5MSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/JWSgfzUOcsPux6VVHe/giphy.gif' }} 
-        style={styles.gif} 
-      />
+    // SafeAreaView garante que nada fique escondido pelo entalhe (notch) ou botões do sistema
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView style={styles.container}>
+        <Text style={styles.title}>Preparando {receitaCompleta?.nome || "sua receita"}</Text>
+        
+        {videoUri ? (
+          <TouchableOpacity 
+            style={styles.videoButton} 
+            onPress={() => setMostrarVideo(!mostrarVideo)}
+          >
+            <Text style={styles.buttonText}>
+              {mostrarVideo ? "🔼 Fechar Vídeo" : "🎥 Assistir Modo de Preparo"}
+            </Text>
+          </TouchableOpacity>
+        ) : null}
 
-      {/* 3. Mapeamos a lista de passos para criar os cards dinamicamente */}
-      {listaPassos.map((item, index) => (
-        <View key={index} style={styles.stepCard}>
-          <Text style={styles.stepNum}>PASSO {index + 1}</Text>
-          <Text style={styles.stepText}>{item}</Text>
-        </View>
-      ))}
+        {/* Janela de Vídeo com Container para melhor controle de layout */}
+        {mostrarVideo && videoUri && (
+          <View style={styles.videoContainer}>
+            <Video
+              source={{ uri: videoUri }}
+              rate={1.0}
+              volume={1.0}
+              isMuted={false}
+              resizeMode={ResizeMode.CONTAIN}
+              shouldPlay={false}
+              useNativeControls
+              style={styles.video}
+            />
+          </View>
+        )}
 
-      {/* Botão para resetar o fluxo e voltar para a Home */}
-      <TouchableOpacity 
-        style={styles.homeButton} 
-        onPress={() => navigation.popToTop()}>
-        <Text style={styles.buttonText}>Finalizar e Voltar ao Início ✨</Text>
-      </TouchableOpacity>
-    </ScrollView>
+        {!mostrarVideo && (
+          <Image 
+            source={{ uri: 'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3enZwMXgwMDBvdHFpazVrbWZiNnQwYnpkenBtaXh5d2VnNmhxZHc5MSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/JWSgfzUOcsPux6VVHe/giphy.gif' }} 
+            style={styles.gif} 
+          />
+        )}
+
+        {listaPassos.map((item, index) => (
+          <View key={index} style={styles.stepCard}>
+            <Text style={styles.stepNum}>PASSO {index + 1}</Text>
+            <Text style={styles.stepText}>{item}</Text>
+          </View>
+        ))}
+
+        <TouchableOpacity 
+          style={styles.homeButton} 
+          onPress={() => navigation.popToTop()}>
+          <Text style={styles.buttonText}>Finalizar e Voltar ao Início ✨</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
+  // Estilo para a área segura
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  container: { 
+    flex: 1, 
+    paddingHorizontal: 20, // Padding lateral no ScrollView
+    paddingTop: 10,
+  },
   title: { fontSize: 22, fontWeight: 'bold', color: '#f4511e', marginBottom: 20 },
   gif: { width: '100%', height: 200, borderRadius: 15, marginBottom: 20 },
+  videoButton: {
+    backgroundColor: '#f4511e',
+    padding: 12,
+    borderRadius: 10,
+    marginBottom: 15,
+  },
+  videoContainer: {
+    width: '100%',
+    height: 220,
+    backgroundColor: '#000',
+    borderRadius: 15,
+    overflow: 'hidden', // Garante que o vídeo respeite o border radius do container
+    marginBottom: 20,
+    // Adicionando uma borda interna ou margem se necessário para afastar dos botões do celular
+  },
+  video: {
+    width: '100%',
+    height: '100%',
+  },
   stepCard: { 
     padding: 15, 
     backgroundColor: '#fdf2f0', 
