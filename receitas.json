@@ -5,6 +5,7 @@
     "img": "pao_de_queijo.jpg",
     "ingredientes": ["500g de polvilho doce", "3 ovos", "250g de queijo ralado", "200ml de leite"],
     "utensilios": ["Tigela grande", "Assadeira", "Forno"],
+    "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
     "passos": [
       "Escalde o polvilho com o leite quente.",
       "Misture os ovos e o queijo até formar uma massa.",
@@ -17,6 +18,7 @@
     "img": "mousse_limao.jpg",
     "ingredientes": ["1 lata de leite condensado", "1 lata de creme de leite", "Meia xícara de suco de limão"],
     "utensilios": ["Liquidificador", "Taças de sobremesa", "Geladeira"],
+    "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
     "passos": [
       "Bata tudo no liquidificador por 3 minutos.",
       "Coloque nas taças e leve à geladeira por 2 horas.",
