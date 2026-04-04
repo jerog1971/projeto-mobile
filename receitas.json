@@ -3,7 +3,7 @@
     "id": "100",
     "nome": "Bolo de Caneca",
     "img": "bolo_caneca.jpg",
-    "ingredientes": ["1 colher de chá de margarina", "2 colheres de sopa de leite", "2 coheres de sopa de açúcar", "2 colheres de sopa de achocolatado", "2 colheres de sopa de trigo", "1 col. de chá de fermento em pó"],
+    "ingredientes": ["1 colher de chá de margarina", "2 colheres de sopa de leite", "2 coheres de sopa de açúcar", "2 colheres de sopa de achocolatado", "2 colheres de sopa de trigo", "1 col. de chá de fermento"],
     "utensilios": ["Caneca", "Colher de sopa", "Colher de chá", "Micro-ondas"],
     "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
     "passos": [
