@@ -5,7 +5,7 @@
     "img": "bolo_caneca.jpg",
     "ingredientes": ["1 colher de chá de margarina", "2 colheres de sopa de leite", "2 coheres de sopa de açúcar", "2 colheres de sopa de achocolatado", "2 colheres de sopa de trigo", "1 colher de chá de fermento químico em pó"],
     "utensilios": ["Caneca", "Colher de sopa", "Colher de chá", "Micro-ondas"],
-    "videoUrl": "https://github.com/jerog1971/projeto-mobile/raw/main/videos/bolo_caneca.mp4",
+    "videoUrl": "https://github.com/jerog1971/projeto-mobile/blob/main/videos/bolo_caneca.mp4?raw=true",
     "passos": [
       "Coloque a margarina na caneca e derreta por cerca de 10 a 12 segundos.",
       "Adicione o leite, o açúcar, o trigo e o achocolatado.",
