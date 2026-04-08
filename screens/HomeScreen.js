@@ -9,6 +9,7 @@ const IMAGENS_LOCAIS = {
   'bolo_cenoura.jpg': require('./img/bolo_cenoura.jpg'),
   'bolo_laranja.jpg': require('./img/bolo_laranja.jpg'),
   'pao_de_queijo.jpg': require('./img/pao_de_queijo.jpg'),
+  'bolo_caneca.jpg': require('./img/bolo_caneca.jpg'),
   'mousse_limao.jpg': require('./img/mousse_limao.jpg'),
 };
 
