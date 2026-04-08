@@ -30,28 +30,30 @@ export default function HomeScreen({ navigation }) {
       const novas = receitasDoServidor.filter(resServidor => !receitas.some(resLocal => resLocal.id === resServidor.id));
       
       if (novas.length === 0) {
-        Platform.OS === 'web' ? window.alert("Você já está atualizado!") : Alert.alert("Sincronizado", "Tudo em dia!");
+        window.alert("Você já possui todas as receitas disponíveis!");
       } else {
         setReceitas(prev => [...prev, ...novas]);
-        Platform.OS === 'web' ? window.alert("Novas receitas baixadas!") : Alert.alert("Sucesso", "Baixado!");
+        window.alert("Novas receitas adicionadas com sucesso!");
       }
-    } catch (e) { window.alert("Erro ao conectar ao servidor."); }
-    finally { setCarregando(false); }
+    } catch (error) {
+      window.alert("Erro ao conectar ao servidor.");
+    } finally {
+      setCarregando(false);
+    }
   };
 
   const deletarReceita = (id) => {
-    const confirmar = Platform.OS === 'web' ? window.confirm("Remover esta receita?") : true;
-    if (confirmar) {
+    if (window.confirm("Deseja realmente remover esta receita?")) {
       setReceitas(prev => prev.filter(r => r.id !== id));
     }
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView style={{flex: 1}} contentContainerStyle={styles.scrollContent}>
         <Text style={styles.headerTitle}>Minhas Receitas 🍰</Text>
-        <TouchableOpacity style={styles.btnSync} onPress={sincronizarReceitas}>
-          {carregando ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Sincronizar Nuvem ☁️</Text>}
+        <TouchableOpacity style={styles.btnSync} onPress={sincronizarReceitas} disabled={carregando}>
+          {carregando ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Baixar Novidades ☁️</Text>}
         </TouchableOpacity>
         <View style={styles.vitrine}>
           {receitas.map((receita) => (
@@ -75,7 +77,7 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#fff' },
-  scrollContent: { flexGrow: 1, paddingBottom: 100 }, // Aumentado para garantir scroll
+  scrollContent: { flexGrow: 1, paddingBottom: 80 },
   headerTitle: { fontSize: 26, fontWeight: 'bold', padding: 20 },
   btnSync: { backgroundColor: '#f4511e', margin: 20, padding: 15, borderRadius: 12, alignItems: 'center' },
   btnText: { color: '#fff', fontWeight: 'bold' },
@@ -85,6 +87,6 @@ const styles = StyleSheet.create({
   image: { width: '100%', height: '100%' },
   cardOverlay: { position: 'absolute', bottom: 0, width: '100%', backgroundColor: 'rgba(0,0,0,0.5)', padding: 8 },
   recipeTitle: { color: '#fff', fontWeight: 'bold', textAlign: 'center', fontSize: 12 },
-  deleteBtn: { position: 'absolute', top: -5, right: -5, backgroundColor: '#ff4444', width: 26, height: 26, borderRadius: 13, justifyContent: 'center', alignItems: 'center', zIndex: 99 },
+  deleteBtn: { position: 'absolute', top: -10, right: -10, backgroundColor: '#ff4444', width: 28, height: 28, borderRadius: 14, justifyContent: 'center', alignItems: 'center', zIndex: 99, elevation: 5 },
   deleteText: { color: '#fff', fontWeight: 'bold' }
 });
