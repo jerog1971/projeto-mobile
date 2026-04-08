@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Image, View, Text } from 'react-native'; // Importamos Image, View e Text
+import { Image, View, Text, Platform } from 'react-native'; 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -10,13 +10,12 @@ import StepsScreen from './screens/StepsScreen';
 
 const Stack = createStackNavigator();
 
-// Criamos um componente para o cabeçalho personalizado
 function LogoTitle() {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <Image
         style={{ width: 30, height: 30, marginRight: 10 }}
-        source={require('./assets/logo.png')} // Certifique-se de que o caminho do logo está correto
+        source={require('./assets/logo.png')} 
       />
       <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>
         Receitas Incríveis
@@ -31,7 +30,9 @@ export default function App() {
       <Stack.Navigator 
         screenOptions={{ 
           headerStyle: { backgroundColor: '#f4511e' }, 
-          headerTintColor: '#fff' 
+          headerTintColor: '#fff',
+          // AJUSTE CRUCIAL: Remove a trava de altura no navegador
+          cardStyle: { flex: 1, backgroundColor: '#fff', overflow: Platform.OS === 'web' ? 'visible' : 'hidden' }
         }}
       >
         <Stack.Screen 
