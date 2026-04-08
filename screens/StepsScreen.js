@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, Platform, Dimensions } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 
 export default function StepsScreen({ route, navigation }) {
@@ -8,8 +8,12 @@ export default function StepsScreen({ route, navigation }) {
   const listaPassos = receitaCompleta?.passos || [];
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView 
+        style={styles.scrollView} 
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={Platform.OS === 'web'}
+      >
         <Text style={styles.title}>Preparando {receitaCompleta?.nome}</Text>
         
         {receitaCompleta?.videoUrl && (
@@ -47,11 +51,34 @@ export default function StepsScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  scrollContent: { padding: 20, flexGrow: 1, paddingBottom: 60 },
+  safeArea: { 
+    flex: 1, 
+    backgroundColor: '#fff',
+    height: Platform.OS === 'web' ? '100vh' : '100%' 
+  },
+  scrollView: { 
+    flex: 1 
+  },
+  scrollContent: { 
+    padding: 20, 
+    flexGrow: 1, 
+    paddingBottom: 100 // Espaço extra para o botão não sumir
+  },
   title: { fontSize: 22, fontWeight: 'bold', color: '#f4511e', marginBottom: 20 },
   videoButton: { backgroundColor: '#f4511e', padding: 15, borderRadius: 10, marginBottom: 15 },
-  videoWrapper: { width: '100%', aspectRatio: 16/9, backgroundColor: '#000', borderRadius: 15, overflow: 'hidden', marginBottom: 20 },
-  video: { flex: 1 },
+  videoWrapper: { 
+    width: '100%', 
+    aspectRatio: 16/9, 
+    backgroundColor: '#000', 
+    borderRadius: 15, 
+    overflow: 'hidden', 
+    marginBottom: 20,
+    alignSelf: 'center'
+  },
+  video: { 
+    width: '100%', 
+    height: '100%' 
+  },
   stepCard: { padding: 15, backgroundColor: '#fdf2f0', borderRadius: 10, marginBottom: 15, borderLeftWidth: 5, borderLeftColor: '#f4511e' },
   stepNum: { fontSize: 12, fontWeight: 'bold', color: '#f4511e' },
   stepText: { fontSize: 16, marginTop: 5 },
