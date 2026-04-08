@@ -6,13 +6,13 @@ export default function ToolsScreen({ route, navigation }) {
   const listaUtensilios = receitaCompleta?.utensilios || [];
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={styles.container}>
         <Text style={styles.title}>Utensílios necessários</Text>
         <FlatList
           data={listaUtensilios}
           keyExtractor={(item, index) => index.toString()}
-          contentContainerStyle={{ paddingBottom: 20 }}
+          contentContainerStyle={{ paddingBottom: 30 }}
           renderItem={({ item }) => (
             <View style={styles.toolCard}>
               <Text style={styles.toolIcon}>🛠️</Text>
@@ -29,7 +29,6 @@ export default function ToolsScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#fff' },
   container: { flex: 1, padding: 20 },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
   toolCard: { flexDirection: 'row', alignItems: 'center', padding: 15, backgroundColor: '#f5f5f5', borderRadius: 12, marginBottom: 10 },
