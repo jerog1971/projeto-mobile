@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Alert, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIndicator, SafeAreaView, Platform } from 'react-native';
 
 const IMAGENS_LOCAIS = {
   'bolo_chocolate.jpg': require('./img/bolo_chocolate.jpg'),
@@ -27,19 +27,31 @@ export default function HomeScreen({ navigation }) {
     try {
       const response = await fetch('https://raw.githubusercontent.com/jerog1971/projeto-mobile/refs/heads/main/receitas.json');
       const receitasDoServidor = await response.json();
-      const novasParaAdicionar = receitasDoServidor.filter(resServidor => !receitas.some(resLocal => resLocal.id === resServidor.id));
-      if (novasParaAdicionar.length === 0) { Alert.alert("Sincronizado", "Você já possui todas as receitas!"); } 
-      else { setReceitas([...receitas, ...novasParaAdicionar]); Alert.alert("Sucesso", "Receitas atualizadas!"); }
-    } catch (error) { Alert.alert("Erro", "Falha na conexão."); } 
+      const novas = receitasDoServidor.filter(resServidor => !receitas.some(resLocal => resLocal.id === resServidor.id));
+      
+      if (novas.length === 0) {
+        Platform.OS === 'web' ? window.alert("Você já está atualizado!") : Alert.alert("Sincronizado", "Tudo em dia!");
+      } else {
+        setReceitas(prev => [...prev, ...novas]);
+        Platform.OS === 'web' ? window.alert("Novas receitas baixadas!") : Alert.alert("Sucesso", "Baixado!");
+      }
+    } catch (e) { window.alert("Erro ao conectar ao servidor."); }
     finally { setCarregando(false); }
+  };
+
+  const deletarReceita = (id) => {
+    const confirmar = Platform.OS === 'web' ? window.confirm("Remover esta receita?") : true;
+    if (confirmar) {
+      setReceitas(prev => prev.filter(r => r.id !== id));
+    }
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.headerTitle}>Minhas Receitas 🍰</Text>
-        <TouchableOpacity style={[styles.btnSync, carregando && { opacity: 0.7 }]} onPress={sincronizarReceitas} disabled={carregando}>
-          {carregando ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Baixar Novidades ☁️</Text>}
+        <TouchableOpacity style={styles.btnSync} onPress={sincronizarReceitas}>
+          {carregando ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Sincronizar Nuvem ☁️</Text>}
         </TouchableOpacity>
         <View style={styles.vitrine}>
           {receitas.map((receita) => (
@@ -48,6 +60,11 @@ export default function HomeScreen({ navigation }) {
                 <Image source={IMAGENS_LOCAIS[receita.img] || { uri: receita.imgUrl }} style={styles.image} />
                 <View style={styles.cardOverlay}><Text style={styles.recipeTitle}>{receita.nome}</Text></View>
               </TouchableOpacity>
+              {!["1", "2", "3", "4"].includes(receita.id) && (
+                <TouchableOpacity style={styles.deleteBtn} onPress={() => deletarReceita(receita.id)}>
+                  <Text style={styles.deleteText}>✕</Text>
+                </TouchableOpacity>
+              )}
             </View>
           ))}
         </View>
@@ -58,15 +75,16 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#fff' },
-  container: { flex: 1 },
-  scrollContent: { flexGrow: 1, paddingBottom: 40 },
+  scrollContent: { flexGrow: 1, paddingBottom: 100 }, // Aumentado para garantir scroll
   headerTitle: { fontSize: 26, fontWeight: 'bold', padding: 20 },
   btnSync: { backgroundColor: '#f4511e', margin: 20, padding: 15, borderRadius: 12, alignItems: 'center' },
   btnText: { color: '#fff', fontWeight: 'bold' },
   vitrine: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around', padding: 10 },
-  cardContainer: { width: '46%', marginBottom: 20 },
+  cardContainer: { width: '46%', marginBottom: 20, position: 'relative' },
   card: { width: '100%', height: 160, borderRadius: 15, overflow: 'hidden' },
   image: { width: '100%', height: '100%' },
   cardOverlay: { position: 'absolute', bottom: 0, width: '100%', backgroundColor: 'rgba(0,0,0,0.5)', padding: 8 },
-  recipeTitle: { color: '#fff', fontWeight: 'bold', textAlign: 'center', fontSize: 12 }
+  recipeTitle: { color: '#fff', fontWeight: 'bold', textAlign: 'center', fontSize: 12 },
+  deleteBtn: { position: 'absolute', top: -5, right: -5, backgroundColor: '#ff4444', width: 26, height: 26, borderRadius: 13, justifyContent: 'center', alignItems: 'center', zIndex: 99 },
+  deleteText: { color: '#fff', fontWeight: 'bold' }
 });
