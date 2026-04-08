@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 
 export default function StepsScreen({ route, navigation }) {
@@ -8,7 +8,7 @@ export default function StepsScreen({ route, navigation }) {
   const listaPassos = receitaCompleta?.passos || [];
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.title}>Preparando {receitaCompleta?.nome}</Text>
         
@@ -24,9 +24,9 @@ export default function StepsScreen({ route, navigation }) {
               source={{ uri: receitaCompleta.videoUrl }}
               style={styles.video}
               useNativeControls
-              resizeMode={ResizeMode.CONTAIN} // Garante que o vídeo caiba na tela sem esticar
-              isMuted={false} // Mantemos o som, mas o usuário terá que dar play manualmente
-              shouldPlay={false} // Na Web, 'false' ajuda a carregar o player corretamente
+              resizeMode={ResizeMode.CONTAIN}
+              isMuted={false}
+              shouldPlay={false}
             />
           </View>
         )}
@@ -39,7 +39,7 @@ export default function StepsScreen({ route, navigation }) {
         ))}
 
         <TouchableOpacity style={styles.homeButton} onPress={() => navigation.popToTop()}>
-          <Text style={styles.buttonText}>Finalizar Receita ✨</Text>
+          <Text style={styles.buttonText}>Finalizar e Voltar ✨</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
@@ -47,7 +47,6 @@ export default function StepsScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#fff' },
   scrollContent: { padding: 20, flexGrow: 1, paddingBottom: 60 },
   title: { fontSize: 22, fontWeight: 'bold', color: '#f4511e', marginBottom: 20 },
   videoButton: { backgroundColor: '#f4511e', padding: 15, borderRadius: 10, marginBottom: 15 },
