@@ -88,15 +88,20 @@ const styles = StyleSheet.create({
   safeArea: { 
     flex: 1, 
     backgroundColor: '#fff',
-    // IMPORTANTE: vh (viewport height) ajuda o scroll no navegador
-    height: Platform.OS === 'web' ? '100vh' : '100%'
+    // No Web, removemos a altura fixa do SafeArea e deixamos o corpo da página crescer
+    height: Platform.OS === 'web' ? 'auto' : '100%', 
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
   },
   scrollView: { 
-    flex: 1 
+    flex: 1,
+    // Força o navegador a mostrar a barra de rolagem se o conteúdo transbordar
+    overflow: Platform.OS === 'web' ? 'visible' : 'scroll', 
   },
   scrollContent: { 
     flexGrow: 1, 
-    paddingBottom: 100 // Aumentado para garantir folga no fim da lista
+    paddingBottom: 100, 
+    // Garante que o conteúdo não fique preso
+    alignItems: 'stretch', 
   },
   headerTitle: { fontSize: 26, fontWeight: 'bold', padding: 20 },
   btnSync: { backgroundColor: '#f4511e', margin: 20, padding: 15, borderRadius: 12, alignItems: 'center' },
