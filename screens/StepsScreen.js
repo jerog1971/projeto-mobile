@@ -54,15 +54,20 @@ const styles = StyleSheet.create({
   safeArea: { 
     flex: 1, 
     backgroundColor: '#fff',
-    height: Platform.OS === 'web' ? '100vh' : '100%' 
+    // No Web, removemos a altura fixa do SafeArea e deixamos o corpo da página crescer
+    height: Platform.OS === 'web' ? 'auto' : '100%', 
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
   },
   scrollView: { 
-    flex: 1 
+    flex: 1,
+    // Força o navegador a mostrar a barra de rolagem se o conteúdo transbordar
+    overflow: Platform.OS === 'web' ? 'visible' : 'scroll', 
   },
   scrollContent: { 
-    padding: 20, 
     flexGrow: 1, 
-    paddingBottom: 100 // Espaço extra para o botão não sumir
+    paddingBottom: 100, 
+    // Garante que o conteúdo não fique preso
+    alignItems: 'stretch', 
   },
   title: { fontSize: 22, fontWeight: 'bold', color: '#f4511e', marginBottom: 20 },
   videoButton: { backgroundColor: '#f4511e', padding: 15, borderRadius: 10, marginBottom: 15 },
