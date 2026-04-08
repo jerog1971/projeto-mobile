@@ -33,7 +33,24 @@ export default function IngredientsScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  scrollContent: { padding: 20, flexGrow: 1, paddingBottom: 60 },
+  safeArea: { 
+    flex: 1, 
+    backgroundColor: '#fff',
+    // No Web, removemos a altura fixa do SafeArea e deixamos o corpo da página crescer
+    height: Platform.OS === 'web' ? 'auto' : '100%', 
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+  },
+  scrollView: { 
+    flex: 1,
+    // Força o navegador a mostrar a barra de rolagem se o conteúdo transbordar
+    overflow: Platform.OS === 'web' ? 'visible' : 'scroll', 
+  },
+  scrollContent: { 
+    flexGrow: 1, 
+    paddingBottom: 100, 
+    // Garante que o conteúdo não fique preso
+    alignItems: 'stretch', 
+  },
   title: { fontSize: 18, color: '#666' },
   recipeSubtitle: { fontSize: 24, fontWeight: 'bold', color: '#f4511e', marginBottom: 20 },
   itemRow: { flexDirection: 'row', alignItems: 'center', marginVertical: 8, padding: 12, backgroundColor: '#f9f9f9', borderRadius: 10 },
