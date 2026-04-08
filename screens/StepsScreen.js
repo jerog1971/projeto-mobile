@@ -31,6 +31,7 @@ export default function StepsScreen({ route, navigation }) {
               resizeMode={ResizeMode.CONTAIN}
               isMuted={false}
               shouldPlay={false}
+              videoStyle={{ width: '100%', height: '100%' }}
             />
           </View>
         )}
