@@ -11,10 +11,6 @@ export default function IngredientsScreen({ route, navigation }) {
     }
   }, [receitaCompleta]);
 
-  const toggleCheck = (id) => {
-    setItems(prev => prev.map(item => item.id === id ? { ...item, checked: !item.checked } : item));
-  };
-
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -22,7 +18,9 @@ export default function IngredientsScreen({ route, navigation }) {
         <Text style={styles.recipeSubtitle}>{receitaCompleta?.nome}</Text>
         {items.map(item => (
           <View key={item.id} style={styles.itemRow}>
-            <Switch value={item.checked} onValueChange={() => toggleCheck(item.id)} trackColor={{ true: "#f4511e" }} />
+            <Switch value={item.checked} onValueChange={() => {
+              setItems(prev => prev.map(i => i.id === item.id ? {...i, checked: !i.checked} : i));
+            }} trackColor={{ true: "#f4511e" }} />
             <Text style={[styles.itemText, item.checked && styles.checkedText]}>{item.name}</Text>
           </View>
         ))}
@@ -35,7 +33,7 @@ export default function IngredientsScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  scrollContent: { padding: 20, flexGrow: 1, paddingBottom: 40 },
+  scrollContent: { padding: 20, flexGrow: 1, paddingBottom: 60 },
   title: { fontSize: 18, color: '#666' },
   recipeSubtitle: { fontSize: 24, fontWeight: 'bold', color: '#f4511e', marginBottom: 20 },
   itemRow: { flexDirection: 'row', alignItems: 'center', marginVertical: 8, padding: 12, backgroundColor: '#f9f9f9', borderRadius: 10 },
