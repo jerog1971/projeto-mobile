@@ -34,14 +34,20 @@ const styles = StyleSheet.create({
   safeArea: { 
     flex: 1, 
     backgroundColor: '#fff',
-    // Agora o Platform vai funcionar porque foi importado
-    height: Platform.OS === 'web' ? '100vh' : '100%',
+    // No Web, removemos a altura fixa do SafeArea e deixamos o corpo da página crescer
+    height: Platform.OS === 'web' ? 'auto' : '100%', 
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
   },
-  container: { 
-    flex: 1, 
-    padding: 20,
-    // No Web, precisamos garantir que o container não trave o scroll
-    maxHeight: Platform.OS === 'web' ? '100vh' : undefined, 
+  scrollView: { 
+    flex: 1,
+    // Força o navegador a mostrar a barra de rolagem se o conteúdo transbordar
+    overflow: Platform.OS === 'web' ? 'visible' : 'scroll', 
+  },
+  scrollContent: { 
+    flexGrow: 1, 
+    paddingBottom: 100, 
+    // Garante que o conteúdo não fique preso
+    alignItems: 'stretch', 
   },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
   toolCard: { flexDirection: 'row', alignItems: 'center', padding: 15, backgroundColor: '#f5f5f5', borderRadius: 12, marginBottom: 10 },
