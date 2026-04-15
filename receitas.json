@@ -4,7 +4,7 @@
     "nome": "Bolo de Caneca",
     "img": "bolo_caneca.jpg",
     "ingredientes": {"Massa": ["1 colher de chá de margarina", "2 colheres de sopa de leite", "2 coheres de sopa de açúcar", "2 colheres de sopa de achocolatado", "2 colheres de sopa de trigo", "1 colher de chá de fermento químico em pó"],
-      "Cobertura":["a gosto"], "Recheio":["não vai recheio"]},
+      "Cobertura":["leite condensado", "granulado"]},
     "utensilios": ["Caneca", "Colher de sopa", "Colher de chá", "Micro-ondas"],
     "videoUrl": "https://github.com/jerog1971/projeto-mobile/blob/main/videos/bolo_caneca.mp4?raw=true",
     "passos": {"Massa":[
@@ -14,20 +14,20 @@
       "Coloque para assar por 70 segundos.",
       "Retire e confira com uma faca a consistência, se necessário, coloque por mais alguns segundos",
       "Observação - esta receita cria um bolo de consistência úmida"
-    ], "Cobertura": ["a gosto"], "Recheio":["não vai recheio"]}
+    ], "Cobertura": ["despeje o leite condensado", "polvilhe o granulado"]}
   },
   {
     "id": "101",
     "nome": "Mousse de Limão",
     "img": "mousse_limao.jpg",
     "ingredientes": {"Massa": ["1 lata de leite condensado", "1 lata de creme de leite", "Meia xícara de suco de limão"],
-      "Cobertura": ["raspas de limão"], "Recheio":["não vai recheio"]},
+      "Cobertura": ["raspas de limão"]},
     "utensilios": ["Liquidificador", "Taças de sobremesa", "Geladeira"],
     "videoUrl": "https://github.com/jerog1971/projeto-mobile/blob/main/videos/bolo_caneca.mp4?raw=true",
     "passos": {"Massa":[
       "Bata tudo no liquidificador por 3 minutos.",
       "Coloque nas taças e leve à geladeira por 2 horas.",
       "Decore com raspas de limão antes de servir."
-    ], "Cobertura":["polvilhe sobre o mousse as raspas de limão"], "Recheio":["não vai recheio"]},
+    ], "Cobertura":["polvilhe sobre o mousse as raspas de limão"]}
   }
 ]
