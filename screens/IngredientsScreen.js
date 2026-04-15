@@ -3,17 +3,36 @@ import { View, Text, Switch, StyleSheet, TouchableOpacity, ScrollView, SafeAreaV
 
 export default function IngredientsScreen({ route, navigation }) {
   const { receitaCompleta } = route.params || {};
-  const [items, setItems] = useState([]);
+  // Estado para armazenar os ingredientes agrupados por categoria
+  const [grupos, setGrupos] = useState({});
 
   useEffect(() => {
+    // Verifica se os ingredientes existem e se estão no novo formato de objeto
     if (receitaCompleta?.ingredientes) {
-      setItems(receitaCompleta.ingredientes.map((ing, index) => ({ 
-        id: index.toString(), 
-        name: ing, 
-        checked: false 
-      })));
+      const novoEstado = {};
+      
+      // Itera sobre as chaves (ex: Massa, Recheio) e prepara o estado com 'checked'
+      Object.entries(receitaCompleta.ingredientes).forEach(([titulo, lista]) => {
+        novoEstado[titulo] = lista.map((ing, index) => ({
+          id: `${titulo}-${index}`, // ID único combinando categoria e índice
+          name: ing,
+          checked: false
+        }));
+      });
+      
+      setGrupos(novoEstado);
     }
   }, [receitaCompleta]);
+
+  // Função para alternar o checkbox dentro de uma categoria específica
+  const toggleCheck = (categoria, id) => {
+    setGrupos(prev => ({
+      ...prev,
+      [categoria]: prev[categoria].map(item => 
+        item.id === id ? { ...item, checked: !item.checked } : item
+      )
+    }));
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -24,18 +43,27 @@ export default function IngredientsScreen({ route, navigation }) {
         <Text style={styles.title}>Ingredientes para:</Text>
         <Text style={styles.recipeSubtitle}>{receitaCompleta?.nome}</Text>
         
-        {items.map(item => (
-          <View key={item.id} style={styles.itemRow}>
-            <Switch 
-              value={item.checked} 
-              onValueChange={() => {
-                setItems(prev => prev.map(i => i.id === item.id ? {...i, checked: !i.checked} : i));
-              }} 
-              trackColor={{ true: "#f4511e" }} 
-            />
-            <Text style={[styles.itemText, item.checked && styles.checkedText]}>
-              {item.name}
-            </Text>
+        {/* Mapeia as categorias (Massa, Recheio, etc) */}
+        {Object.entries(grupos).map(([categoria, listaDeItens]) => (
+          <View key={categoria} style={styles.categoriaContainer}>
+            {/* Título da Categoria */}
+            <View style={styles.badgeCategoria}>
+              <Text style={styles.badgeText}>{categoria}</Text>
+            </View>
+
+            {/* Lista de ingredientes daquela categoria */}
+            {listaDeItens.map(item => (
+              <View key={item.id} style={styles.itemRow}>
+                <Switch 
+                  value={item.checked} 
+                  onValueChange={() => toggleCheck(categoria, item.id)} 
+                  trackColor={{ true: "#f4511e" }} 
+                />
+                <Text style={[styles.itemText, item.checked && styles.checkedText]}>
+                  {item.name}
+                </Text>
+              </View>
+            ))}
           </View>
         ))}
         
@@ -58,23 +86,44 @@ const styles = StyleSheet.create({
   },
   scrollView: { flex: 1 },
   scrollContent: { 
-    padding: 20, // MARGEM DESCOLADA AQUI
+    padding: 20, 
     flexGrow: 1, 
     paddingBottom: 60 
   },
   title: { fontSize: 18, color: '#666' },
-  recipeSubtitle: { fontSize: 24, fontWeight: 'bold', color: '#f4511e', marginBottom: 20 },
+  recipeSubtitle: { fontSize: 24, fontWeight: 'bold', color: '#f4511e', marginBottom: 15 },
+  
+  // Estilos novos para organização por subtítulos
+  categoriaContainer: {
+    marginTop: 15,
+    marginBottom: 10
+  },
+  badgeCategoria: {
+    backgroundColor: '#f4511e',
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+    marginBottom: 10
+  },
+  badgeText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 14,
+    textTransform: 'uppercase'
+  },
+
   itemRow: { 
     flexDirection: 'row', 
     alignItems: 'center', 
-    marginVertical: 8, 
-    padding: 15, 
+    marginVertical: 4, 
+    padding: 12, 
     backgroundColor: '#f9f9f9', 
     borderRadius: 12,
     borderWidth: 1,
     borderColor: '#eee'
   },
-  itemText: { marginLeft: 10, fontSize: 18, color: '#333', flex: 1 },
+  itemText: { marginLeft: 10, fontSize: 16, color: '#333', flex: 1 },
   checkedText: { textDecorationLine: 'line-through', color: '#aaa' },
   button: { 
     backgroundColor: '#f4511e', 
