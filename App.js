@@ -17,7 +17,7 @@ function LogoTitle() {
         style={{ width: 30, height: 30, marginRight: 10 }}
         source={require('./assets/logo.png')} 
       />
-      <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>
+      <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
         Receitas Incríveis
       </Text>
     </View>
@@ -29,7 +29,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator 
         screenOptions={{ 
-          headerStyle: { backgroundColor: '#f4511e' }, 
+          headerStyle: { backgroundColor: '#326696' }, 
           headerTintColor: '#fff',
           // AJUSTE CRUCIAL: Remove a trava de altura no navegador
           cardStyle: { flex: 1, backgroundColor: '#fff', overflow: Platform.OS === 'web' ? 'visible' : 'hidden' }
