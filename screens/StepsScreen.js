@@ -86,14 +86,14 @@ const styles = StyleSheet.create({
     minHeight: '100%', 
   },
   title: { fontSize: 24, fontWeight: 'bold', color: '#f4511e', marginBottom: 20 },
-  videoButton: { backgroundColor: '#f4511e', padding: 15, borderRadius: 12, marginBottom: 20 },
+  videoButton: { backgroundColor: '#326696', padding: 15, borderRadius: 12, marginBottom: 20 },
   videoWrapper: { width: '100%', aspectRatio: 16 / 9, backgroundColor: '#000', borderRadius: 15, overflow: 'hidden', marginBottom: 25 },
   video: { flex: 1 },
   
   // Estilos para as categorias de passos
   sectionContainer: { marginBottom: 30 },
   categoryBadge: { 
-    backgroundColor: '#4CAF50', // Verde para diferenciar dos ingredientes
+    backgroundColor: '#326696', // Verde para diferenciar dos ingredientes
     paddingVertical: 6, 
     paddingHorizontal: 15, 
     borderRadius: 8, 
@@ -104,15 +104,15 @@ const styles = StyleSheet.create({
   
   stepCard: { 
     padding: 18, 
-    backgroundColor: '#fdf2f0', 
+    backgroundColor: '#D0DBF5', 
     borderRadius: 12, 
     marginBottom: 15, 
     borderLeftWidth: 6, 
-    borderLeftColor: '#f4511e' 
+    borderLeftColor: '#326696' 
   },
   stepNum: { fontSize: 12, fontWeight: 'bold', color: '#f4511e', marginBottom: 4 },
   stepText: { fontSize: 17, color: '#333', lineHeight: 24 },
   
-  homeButton: { backgroundColor: '#f4511e', padding: 20, borderRadius: 15, marginTop: 20, marginBottom: 40 },
+  homeButton: { backgroundColor: '#326696', padding: 20, borderRadius: 15, marginTop: 20, marginBottom: 40 },
   buttonText: { color: '#fff', textAlign: 'center', fontWeight: 'bold', fontSize: 16 }
 });
