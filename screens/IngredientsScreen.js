@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     paddingBottom: 60 
   },
   title: { fontSize: 18, color: '#666' },
-  recipeSubtitle: { fontSize: 24, fontWeight: 'bold', color: '#f4511e', marginBottom: 15 },
+  recipeSubtitle: { fontSize: 24, fontWeight: 'bold', color: '#326696', marginBottom: 15 },
   
   // Estilos novos para organização por subtítulos
   categoriaContainer: {
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   badgeCategoria: {
-    backgroundColor: '#f4511e',
+    backgroundColor: '#326696',
     paddingVertical: 4,
     paddingHorizontal: 12,
     borderRadius: 8,
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   itemText: { marginLeft: 10, fontSize: 16, color: '#333', flex: 1 },
   checkedText: { textDecorationLine: 'line-through', color: '#aaa' },
   button: { 
-    backgroundColor: '#f4511e', 
+    backgroundColor: '#326696', 
     padding: 18, 
     borderRadius: 15, 
     marginTop: 30,
