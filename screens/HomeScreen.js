@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch', 
   },
   headerTitle: { fontSize: 26, fontWeight: 'bold', padding: 20 },
-  btnSync: { backgroundColor: '#f4511e', margin: 20, padding: 15, borderRadius: 12, alignItems: 'center' },
+  btnSync: { backgroundColor: '#326696', margin: 20, padding: 15, borderRadius: 10, alignItems: 'center' },
   btnText: { color: '#fff', fontWeight: 'bold' },
   vitrine: { 
     flexDirection: 'row', 
