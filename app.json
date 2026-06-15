@@ -23,7 +23,16 @@
       "edgeToEdgeEnabled": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "pwa": {
+        "manifest": {
+          "name": "Projeto Mobile Alunos",
+          "short_name": "ProjMobile",
+          "description": "Apresentação do projeto dos alunos",
+          "background_color": "#ffffff",
+          "theme_color": "#ffffff"
+        }
+      }
     }
   }
 }
