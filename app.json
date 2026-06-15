@@ -26,11 +26,18 @@
       "favicon": "./assets/favicon.png",
       "pwa": {
         "manifest": {
-          "name": "Projeto Mobile Alunos",
+          "name": "projeto-mobile",
           "short_name": "ProjMobile",
-          "description": "Apresentação do projeto dos alunos",
+          "theme_color": "#ffffff",
           "background_color": "#ffffff",
-          "theme_color": "#ffffff"
+          "display": "standalone",
+          "icons": [
+            {
+              "src": "./assets/favicon.png",
+              "sizes": [192, 512],
+              "type": "image/png"
+            }
+          ]
         }
       }
     }
