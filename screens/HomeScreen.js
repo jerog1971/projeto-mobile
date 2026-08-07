@@ -25,7 +25,7 @@ export default function HomeScreen({ navigation }) {
   const sincronizarReceitas = async () => {
     setCarregando(true);
     try {
-      const response = await fetch('https://github.com/jerog1971/projeto-mobile/refs/heads/main/receitas.json');
+      const response = await fetch('https://raw.githubusercontente.com/jerog1971/projeto-mobile/refs/heads/main/receitas.json');
       const receitasDoServidor = await response.json();
       const novas = receitasDoServidor.filter(resServidor => !receitas.some(resLocal => resLocal.id === resServidor.id));
       
