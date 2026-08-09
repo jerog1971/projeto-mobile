@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIndicator, SafeAreaView, Platform, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIndicator, SafeAreaView, Platform } from 'react-native';
+import { useTheme } from '../ThemeContext';
 
 const IMAGENS_LOCAIS = {
   'bolo_chocolate.jpg': require('./img/bolo_chocolate.jpg'),
@@ -21,6 +22,7 @@ const RECEITAS_INICIAIS = [
 export default function HomeScreen({ navigation }) {
   const [receitas, setReceitas] = useState(RECEITAS_INICIAIS);
   const [carregando, setCarregando] = useState(false);
+  const { colors } = useTheme();
 
   const sincronizarReceitas = async () => {
     setCarregando(true);
@@ -50,13 +52,13 @@ export default function HomeScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
       <ScrollView 
         style={styles.scrollView} 
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={true}
       >
-        <Text style={styles.headerTitle}>Minhas Receitas 🍰</Text>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>Minhas Receitas 🍰</Text>
         
         <TouchableOpacity style={styles.btnSync} onPress={sincronizarReceitas} disabled={carregando}>
           {carregando ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Baixar Novidades ☁️</Text>}
@@ -87,20 +89,16 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: { 
     flex: 1, 
-    backgroundColor: '#fff',
-    // No Web, removemos a altura fixa do SafeArea e deixamos o corpo da página crescer
     height: Platform.OS === 'web' ? 'auto' : '100%', 
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
   },
   scrollView: { 
     flex: 1,
-    // Força o navegador a mostrar a barra de rolagem se o conteúdo transbordar
     overflow: Platform.OS === 'web' ? 'visible' : 'scroll', 
   },
   scrollContent: { 
     flexGrow: 1, 
     paddingBottom: 100, 
-    // Garante que o conteúdo não fique preso
     alignItems: 'stretch', 
   },
   headerTitle: { fontSize: 26, fontWeight: 'bold', padding: 20 },
