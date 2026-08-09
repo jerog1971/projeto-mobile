@@ -1,32 +1,28 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { useTheme } from '../ThemeContext';
 
 export default function ToolsScreen({ route, navigation }) {
-  // 1. Recebemos o objeto completo vindo da IngredientsScreen
   const { receitaCompleta } = route.params || {};
-
-  // 2. Extraímos a lista de utensílios. 
-  // Caso a receita não tenha (segurança), exibimos uma lista vazia.
   const listaUtensilios = receitaCompleta?.utensilios || [];
+  const { colors } = useTheme();
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Utensílios necessários</Text>
-      <Text style={styles.subtitle}>Para o seu {receitaCompleta?.nome || "prato"}:</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.title, { color: colors.text }]}>Utensílios necessários</Text>
+      <Text style={[styles.subtitle, { color: colors.subtext }]}>Para o seu {receitaCompleta?.nome || "prato"}:</Text>
 
-      {/* 3. Renderizamos a lista dinamicamente */}
       <FlatList
         data={listaUtensilios}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <View style={styles.toolCard}>
-            {/* Usamos um ícone padrão, mas os alunos podem personalizar no JSON depois */}
+          <View style={[styles.toolCard, { backgroundColor: colors.cardBackground, borderColor: colors.cardBorder }]}>
             <Text style={styles.toolIcon}>🛠️</Text>
-            <Text style={styles.toolName}>{item}</Text>
+            <Text style={[styles.toolName, { color: colors.text }]}>{item}</Text>
           </View>
         )}
         ListEmptyComponent={
-          <Text style={styles.emptyText}>Nenhum utensílio específico listado.</Text>
+          <Text style={[styles.emptyText, { color: colors.subtext }]}>Nenhum utensílio específico listado.</Text>
         }
       />
 
@@ -40,22 +36,20 @@ export default function ToolsScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#333' },
-  subtitle: { fontSize: 16, color: '#666', marginBottom: 20 },
+  container: { flex: 1, padding: 20 },
+  title: { fontSize: 24, fontWeight: 'bold' },
+  subtitle: { fontSize: 16, marginBottom: 20 },
   toolCard: { 
     flexDirection: 'row', 
     alignItems: 'center', 
     padding: 15, 
-    backgroundColor: '#f5f5f5', 
     borderRadius: 12, 
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#eee'
   },
   toolIcon: { fontSize: 24, marginRight: 15 },
-  toolName: { fontSize: 18, color: '#444' },
-  emptyText: { textAlign: 'center', color: '#999', marginTop: 20 },
+  toolName: { fontSize: 18 },
+  emptyText: { textAlign: 'center', marginTop: 20 },
   button: { 
     backgroundColor: '#326696', 
     padding: 18, 
