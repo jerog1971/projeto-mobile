@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Switch, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Platform } from 'react-native';
+import { useTheme } from '../ThemeContext';
 
 export default function IngredientsScreen({ route, navigation }) {
   const { receitaCompleta } = route.params || {};
-  // Estado para armazenar os ingredientes agrupados por categoria
   const [grupos, setGrupos] = useState({});
+  const { colors, isDarkMode } = useTheme();
 
   useEffect(() => {
-    // Verifica se os ingredientes existem e se estão no novo formato de objeto
     if (receitaCompleta?.ingredientes) {
       const novoEstado = {};
       
-      // Itera sobre as chaves (ex: Massa, Recheio) e prepara o estado com 'checked'
       Object.entries(receitaCompleta.ingredientes).forEach(([titulo, lista]) => {
         novoEstado[titulo] = lista.map((ing, index) => ({
-          id: `${titulo}-${index}`, // ID único combinando categoria e índice
+          id: `${titulo}-${index}`,
           name: ing,
           checked: false
         }));
@@ -24,7 +23,6 @@ export default function IngredientsScreen({ route, navigation }) {
     }
   }, [receitaCompleta]);
 
-  // Função para alternar o checkbox dentro de uma categoria específica
   const toggleCheck = (categoria, id) => {
     setGrupos(prev => ({
       ...prev,
@@ -35,31 +33,41 @@ export default function IngredientsScreen({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
       <ScrollView 
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
       >
-        <Text style={styles.title}>Ingredientes para:</Text>
+        <Text style={[styles.title, { color: colors.subtext }]}>Ingredientes para:</Text>
         <Text style={styles.recipeSubtitle}>{receitaCompleta?.nome}</Text>
         
-        {/* Mapeia as categorias (Massa, Recheio, etc) */}
         {Object.entries(grupos).map(([categoria, listaDeItens]) => (
           <View key={categoria} style={styles.categoriaContainer}>
-            {/* Título da Categoria */}
             <View style={styles.badgeCategoria}>
               <Text style={styles.badgeText}>{categoria}</Text>
             </View>
 
-            {/* Lista de ingredientes daquela categoria */}
             {listaDeItens.map(item => (
-              <View key={item.id} style={styles.itemRow}>
+              <View 
+                key={item.id} 
+                style={[
+                  styles.itemRow, 
+                  { 
+                    backgroundColor: colors.cardBackground, 
+                    borderColor: colors.cardBorder 
+                  }
+                ]}
+              >
                 <Switch 
                   value={item.checked} 
                   onValueChange={() => toggleCheck(categoria, item.id)} 
                   trackColor={{ true: "#f4511e" }} 
                 />
-                <Text style={[styles.itemText, item.checked && styles.checkedText]}>
+                <Text style={[
+                  styles.itemText, 
+                  { color: colors.text },
+                  item.checked && { color: isDarkMode ? '#666' : '#aaa', textDecorationLine: 'line-through' }
+                ]}>
                   {item.name}
                 </Text>
               </View>
@@ -81,7 +89,6 @@ export default function IngredientsScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   safeArea: { 
     flex: 1, 
-    backgroundColor: '#fff',
     minHeight: Platform.OS === 'web' ? '100vh' : '100%' 
   },
   scrollView: { flex: 1 },
@@ -90,10 +97,8 @@ const styles = StyleSheet.create({
     flexGrow: 1, 
     paddingBottom: 60 
   },
-  title: { fontSize: 18, color: '#666' },
+  title: { fontSize: 18 },
   recipeSubtitle: { fontSize: 24, fontWeight: 'bold', color: '#326696', marginBottom: 15 },
-  
-  // Estilos novos para organização por subtítulos
   categoriaContainer: {
     marginTop: 15,
     marginBottom: 10
@@ -112,19 +117,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textTransform: 'uppercase'
   },
-
   itemRow: { 
     flexDirection: 'row', 
     alignItems: 'center', 
     marginVertical: 4, 
     padding: 12, 
-    backgroundColor: '#f9f9f9', 
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#eee'
   },
-  itemText: { marginLeft: 10, fontSize: 16, color: '#333', flex: 1 },
-  checkedText: { textDecorationLine: 'line-through', color: '#aaa' },
+  itemText: { marginLeft: 10, fontSize: 16, flex: 1 },
   button: { 
     backgroundColor: '#326696', 
     padding: 18, 
