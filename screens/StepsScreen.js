@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
+import { useTheme } from '../ThemeContext';
 
 export default function StepsScreen({ route, navigation }) {
   const { receitaCompleta } = route.params || {};
   const [mostrarVideo, setMostrarVideo] = useState(false);
+  const { colors } = useTheme();
 
-  // Agora passos é um objeto. Se for um array antigo, evitamos erro com o || {}
   const passosObjeto = receitaCompleta?.passos || {};
 
   return (
-    <View style={styles.outerContainer}>
+    <View style={[styles.outerContainer, { backgroundColor: colors.background }]}>
       <ScrollView 
         style={styles.scrollView} 
         contentContainerStyle={styles.scrollContent}
@@ -42,18 +43,25 @@ export default function StepsScreen({ route, navigation }) {
           </View>
         )}
 
-        {/* Lógica para mapear as categorias de passos (Massa, Recheio, etc) */}
         {Object.entries(passosObjeto).map(([categoria, listaDePassos]) => (
           <View key={categoria} style={styles.sectionContainer}>
-            {/* Título da Categoria do Passo (ex: MODO DE PREPARO: MASSA) */}
             <View style={styles.categoryBadge}>
               <Text style={styles.categoryBadgeText}>{categoria}</Text>
             </View>
 
             {listaDePassos.map((passo, index) => (
-              <View key={`${categoria}-${index}`} style={styles.stepCard}>
+              <View 
+                key={`${categoria}-${index}`} 
+                style={[
+                  styles.stepCard, 
+                  { 
+                    backgroundColor: colors.stepCard, 
+                    borderLeftColor: colors.stepCardBorder 
+                  }
+                ]}
+              >
                 <Text style={styles.stepNum}>PASSO {index + 1}</Text>
-                <Text style={styles.stepText}>{passo}</Text>
+                <Text style={[styles.stepText, { color: colors.text }]}>{passo}</Text>
               </View>
             ))}
           </View>
@@ -70,7 +78,6 @@ export default function StepsScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
-    backgroundColor: '#fff',
     height: Platform.OS === 'web' ? '100vh' : '100%',
     overflow: 'hidden', 
   },
@@ -89,11 +96,9 @@ const styles = StyleSheet.create({
   videoButton: { backgroundColor: '#326696', padding: 15, borderRadius: 12, marginBottom: 20 },
   videoWrapper: { width: '100%', aspectRatio: 16 / 9, backgroundColor: '#000', borderRadius: 15, overflow: 'hidden', marginBottom: 25 },
   video: { flex: 1 },
-  
-  // Estilos para as categorias de passos
   sectionContainer: { marginBottom: 30 },
   categoryBadge: { 
-    backgroundColor: '#326696', // Verde para diferenciar dos ingredientes
+    backgroundColor: '#326696',
     paddingVertical: 6, 
     paddingHorizontal: 15, 
     borderRadius: 8, 
@@ -101,18 +106,14 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start'
   },
   categoryBadgeText: { color: '#fff', fontWeight: 'bold', textTransform: 'uppercase', fontSize: 14 },
-  
   stepCard: { 
     padding: 18, 
-    backgroundColor: '#D0DBF5', 
     borderRadius: 12, 
     marginBottom: 15, 
     borderLeftWidth: 6, 
-    borderLeftColor: '#326696' 
   },
   stepNum: { fontSize: 12, fontWeight: 'bold', color: '#f4511e', marginBottom: 4 },
-  stepText: { fontSize: 17, color: '#333', lineHeight: 24 },
-  
+  stepText: { fontSize: 17, lineHeight: 24 },
   homeButton: { backgroundColor: '#326696', padding: 20, borderRadius: 15, marginTop: 20, marginBottom: 40 },
   buttonText: { color: '#fff', textAlign: 'center', fontWeight: 'bold', fontSize: 16 }
 });
